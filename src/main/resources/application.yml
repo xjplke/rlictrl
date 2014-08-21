@@ -1,0 +1,37 @@
+# Server settings (ServerProperties)
+server:
+  port: 8080
+  address: 127.0.0.1
+  sessionTimeout: 30
+#  contextPath: /
+
+  # Tomcat specifics
+  tomcat:
+    accessLogEnabled: false
+    protocolHeader: x-forwarded-proto
+    remoteIpHeader: x-forwarded-for
+    basedir:
+    backgroundProcessorDelay: 30 # secs
+
+management:
+  address: 127.0.0.1
+  port: 8081
+
+spring:
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+#    driverClassName: org.postgresql.Driver
+    url: jdbc:mysql://localhost:3306/radius
+#    url: jdbc:postgresql://localhost/radius
+    username: root
+    password: 123qwe
+  jpa:
+    database: MYSQL
+    hibernate:
+      ddl-auto: update # create-drop
+    
+info:
+  app:
+    name: springtest
+    description: spring test
+    version: 1.0.0
