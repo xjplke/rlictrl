@@ -10,7 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="authorization")
+@Table(name="tbl_authoriz")
 public class Authorization implements java.io.Serializable {
 	
 	/**
@@ -27,8 +27,8 @@ public class Authorization implements java.io.Serializable {
 	@Column(name="expire")
 	private Date  expire;
 	
-	@Column(name="create")
-	private Date  create;
+	@Column(name="create_at")
+	private Date  createAt;
 	
 	@Column(name="last_update")
 	private Date  lastUpdate;
@@ -58,11 +58,11 @@ public class Authorization implements java.io.Serializable {
 	}
 
 	public Date getCreate() {
-		return create;
+		return createAt;
 	}
 
 	public void setCreate(Date create) {
-		this.create = create;
+		this.createAt = create;
 	}
 
 	public Date getLastUpdate() {
@@ -77,7 +77,4 @@ public class Authorization implements java.io.Serializable {
 		return serialVersionUID;
 	}
 
-
-	
-	
 }

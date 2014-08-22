@@ -1,7 +1,6 @@
 package cn.adfi.rlictrl.model;
 
 import java.util.Date;
-import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,34 +17,35 @@ public class Client {
 	@Id
 	@GenericGenerator(name="idGenerator", strategy="uuid") 
 	@GeneratedValue(generator="idGenerator") 
-	private UUID uuid;
+	@Column(length=32)
+	private String uuid;
 	
-	@Column(length=28,nullable=false, unique=true)
-	private String ip;
+	@Column(length=32,nullable=false, unique=true)
+	private String localkey;
 	
-	@Column(length=64)
+	@Column(length=64,nullable=false)
 	private String company;
 	
-	@Column(length=16)
+	@Column(length=16,nullable=false)
 	private String phone;
 	
-	@Column(name="create_at")
-	private Date   create;
+	@Column(name="create_at",nullable=false)
+	private Date   createAt;
 
-	public UUID getUuid() {
+	public String getUuid() {
 		return uuid;
 	}
 
-	public void setUuid(UUID uuid) {
+	public void setUuid(String uuid) {
 		this.uuid = uuid;
 	}
 
-	public String getIp() {
-		return ip;
+	public String getLocalkey() {
+		return localkey;
 	}
 
-	public void setIp(String ip) {
-		this.ip = ip;
+	public void setLocalkey(String localkey) {
+		this.localkey = localkey;
 	}
 
 	public String getCompany() {
@@ -65,11 +65,11 @@ public class Client {
 	}
 
 	public Date getCreate() {
-		return create;
+		return createAt;
 	}
 
 	public void setCreate(Date create) {
-		this.create = create;
+		this.createAt = create;
 	}
 	
 	

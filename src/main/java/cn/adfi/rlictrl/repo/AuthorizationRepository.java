@@ -1,8 +1,6 @@
 package cn.adfi.rlictrl.repo;
 
 import java.util.List;
-import java.util.UUID;
-
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -15,5 +13,5 @@ import cn.adfi.rlictrl.model.Authorization;
 
 public interface AuthorizationRepository extends CrudRepository<Authorization, AuthPK> {
 	@Query("select a from Authorization a where a.id.uuid = :uuid") 
-	public List<Authorization> findAuthorizationByUUID(@Param("uuid")UUID uuid);
+	public List<Authorization> findAuthorizationByUUID(@Param("uuid")String uuid);
 }
