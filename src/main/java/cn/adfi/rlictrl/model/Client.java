@@ -29,8 +29,18 @@ public class Client {
 	@Column(length=16,nullable=false)
 	private String phone;
 	
+	@Column(nullable=false)
+	private String softsign;
+	
+	@Column(name="status",nullable=false)
+	private ClientStatus status;
+	
 	@Column(name="create_at",nullable=false)
 	private Date   createAt;
+	
+	@Column(name="expire",nullable=false)
+	private Date   expire;
+	
 
 	public String getUuid() {
 		return uuid;
@@ -64,13 +74,36 @@ public class Client {
 		this.phone = phone;
 	}
 
-	public Date getCreate() {
+	public Date getCreateAt() {
 		return createAt;
 	}
 
-	public void setCreate(Date create) {
-		this.createAt = create;
+	public void setCreateAt(Date createAt) {
+		this.createAt = createAt;
 	}
-	
+
+	public ClientStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(ClientStatus status) {
+		this.status = status;
+	}
+
+	public Date getExpire() {
+		return expire;
+	}
+
+	public void setExpire(Date expire) {
+		this.expire = expire;
+	}
+
+	public String getSoftsign() {
+		return softsign;
+	}
+
+	public void setSoftsign(String softsign) {
+		this.softsign = softsign;
+	}
 	
 }

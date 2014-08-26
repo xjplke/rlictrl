@@ -1,0 +1,60 @@
+<div class="row clearfix">
+	<div class="col-md-1 column">
+	</div>
+	<div class="col-md-10 column">
+
+	<div class="input-group">
+    		<div class="input-group-btn" dropdown>
+       		<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Search By <span class="caret"></span></button>
+       		<button type="button" class="btn btn-primary" ng-show="searchby.length > 0" disabled>{{searchby}}</button>
+       		<ul class="dropdown-menu" role="menu">
+       			<li><a href="javascript:void(0);" ng-click="searchby = 'uuid';key='';pageChanged()">License</a></li>
+       			<li><a href="javascript:void(0);" ng-click="searchby = 'company';key='';pageChanged()">Company</a></li>
+       		</ul>
+     		</div><!-- /btn-group -->
+     		<input type="text" class="form-control" ng-model="key" ng-change="pageChanged()" />
+   	</div><!-- /input-group -->    	
+	
+	<table class="table table-striped table-hover">
+        <thead>
+        <tr>
+          <th>License</th>
+          <th>localkey</th>
+          <th>Company</th>
+          <th>phone</th>
+          <th>Soft signature</th>
+          <th>Status</th>
+          <th>Create</th>
+          <th>Expire</th>
+        </tr>
+        </thead>
+        
+        <tbody>
+        <tr ng-repeat="client in clientlist | orderBy:id:reverse">
+          <td title='{{client.uuid}}'>{{client.uuid}}</td>
+          <td title='{{client.localkey}}'>{{client.localkey | shortcut}}</td>
+          <td title='{{client.company}}'>{{client.company | shortcut}}</td>
+          <td title='{{client.phone}}'>{{client.phone}}</td>
+          <td title='{{client.softsign}}'>{{client.softsign | shortcut}}</td>
+          <td title='{{client.status}}'>{{client.status}}</td>
+          <td title='{{client.createAt}}'>{{client.createAt}}</td>
+          <td title='{{client.expire}}'>{{client.expire}}</td>
+          <td>
+          	<!-- 
+            <a href="#/system/client/edit/{{client.id}}" title='edit'><span class="glyphicon glyphicon-edit"></span></a>
+            <a href=" javascript:void(0);" ng-click="destroy(client)"><span class="glyphicon glyphicon-remove"></span></a>
+          	 -->
+          </td>
+        </tr>
+        </tbody>
+        <tfoot>
+        	<tr><td colspan=8 align='right'>
+        	<pagination total-items="page.totalElements" ng-model="page.number" max-size="6" class="pagination-sm" 
+        		boundary-links="true" rotate="false" num-pages="page.totalPages" items-per-page="page.size" ng-change="pageChanged()"></pagination>
+        	</td></tr>
+        </tfoot>
+      </table>
+	
+	<div class="col-md-1 column">
+	</div>
+</div>

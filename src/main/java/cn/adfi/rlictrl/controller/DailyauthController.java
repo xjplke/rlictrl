@@ -14,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,6 +33,7 @@ import cn.adfi.rlictrl.repo.DailyauthRepository;
 @EnableTransactionManagement
 @RestController
 @EnableAutoConfiguration
+@Transactional
 @RequestMapping("/auth")
 public class DailyauthController {
 	@Autowired
@@ -42,7 +44,8 @@ public class DailyauthController {
 	
 	@Autowired
 	private DailyauthRepository dailyauthRepo;
-	
+
+	/*
 	@RequestMapping(method=RequestMethod.POST)
 	public List<Authorization> addDailyauth(@RequestBody Dailyauth dauth,HttpServletRequest request){
 		List<Authorization> lauth = new ArrayList<Authorization>();
@@ -69,7 +72,7 @@ public class DailyauthController {
 		}
 		dailyauthRepo.save(dauth);
 		return lauth;
-	}
+	}*/
 	
 	@RequestMapping(method=RequestMethod.GET)
 	public Page<Dailyauth> getDailyauth(@RequestParam("page")int page,
