@@ -100,6 +100,7 @@ public class ClientController {
 		
 		return authRepo.findAuthorizationByUUID(uuid);
 	}
+	
 	//TODO:default Authrization should define a temp!! 
 	public void setClientAuthrizationTest(String uuid){
 		Map<String,String> auth = new HashMap<String,String>();

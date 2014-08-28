@@ -14,8 +14,12 @@ rlictrlApp.config(['$routeProvider','RestangularProvider',
 				templateUrl: 'partials/client/list.html',
 				controller: 'ClientListCtrl'
 			}).
+			when('/login',{
+				templateUrl: 'partials/login.html',
+				controller: ''
+			}).
 			otherwise({
-    			redirectTo: '/'
+    			redirectTo: '/index.html'
     		});
 		
 		//config RestangularProvider
@@ -31,4 +35,8 @@ rlictrlApp.config(['$routeProvider','RestangularProvider',
 			return extractedData;
 		});
 	}
-]);
+]).run(function($rootScope){
+	$rootScope.user = {};
+	$rootScope.logined = false;
+});
+

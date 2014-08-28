@@ -8,7 +8,7 @@
        		<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Search By <span class="caret"></span></button>
        		<button type="button" class="btn btn-primary" ng-show="searchby.length > 0" disabled>{{searchby}}</button>
        		<ul class="dropdown-menu" role="menu">
-       			<li><a href="javascript:void(0);" ng-click="searchby = 'uuid';key='';pageChanged()">License</a></li>
+       			<li><a href="javascript:void(0);" ng-click="searchby = 'license';key='';pageChanged()">License</a></li>
        			<li><a href="javascript:void(0);" ng-click="searchby = 'company';key='';pageChanged()">Company</a></li>
        		</ul>
      		</div><!-- /btn-group -->
@@ -19,9 +19,9 @@
         <thead>
         <tr>
           <th>License</th>
-          <th>localkey</th>
+          <th>Localkey</th>
           <th>Company</th>
-          <th>phone</th>
+          <th>Phone</th>
           <th>Soft signature</th>
           <th>Status</th>
           <th>Create</th>

@@ -11,7 +11,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name="client")
+@Table(name="tbl_client")
 public class Client {
 	
 	@Id

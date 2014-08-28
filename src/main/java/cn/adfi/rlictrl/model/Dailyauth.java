@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="dailyauth")
+@Table(name="tbl_dailyauth")
 public class Dailyauth {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
