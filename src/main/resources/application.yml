@@ -18,18 +18,27 @@ management:
   port: 8081
 
 spring:
-  datasource:
-    driverClassName: com.mysql.jdbc.Driver
+#  datasource:
+#    driverClassName: com.mysql.jdbc.Driver
 #    driverClassName: org.postgresql.Driver
-    url: jdbc:mysql://localhost:3306/radius
+#    url: jdbc:mysql://localhost:3306/rlictrl
 #    url: jdbc:postgresql://localhost/radius
-    username: root
-    password: 123qwe
+#    username: root
+#    password: 123qwe
   jpa:
     database: MYSQL
     hibernate:
       ddl-auto: update # create-drop
-    
+
+#for druid datasource
+datasource:
+  druid:
+    driverClassName: com.mysql.jdbc.Driver    
+    url: jdbc:mysql://localhost:3306/rlictrl
+    username: root
+    password: 123qwe
+
+
 info:
   app:
     name: springtest

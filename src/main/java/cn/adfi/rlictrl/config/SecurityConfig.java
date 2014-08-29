@@ -1,61 +1,76 @@
 package cn.adfi.rlictrl.config;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import javax.sql.DataSource;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.pam.AtLeastOneSuccessfulStrategy;
+import org.apache.shiro.authc.pam.ModularRealmAuthenticator;
+import org.apache.shiro.authz.ModularRealmAuthorizer;
+import org.apache.shiro.authz.permission.WildcardPermissionResolver;
+import org.apache.shiro.mgt.DefaultSecurityManager;
+import org.apache.shiro.realm.Realm;
+import org.apache.shiro.realm.jdbc.JdbcRealm;
+import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.servlet.ShiroFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.embedded.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
-import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+
+
 
 @Configuration
-@EnableWebMvcSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig {
 	
 	@Autowired
-	DataSource dataSource;
+	public void init(DataSource dataSource){
+		DefaultSecurityManager securityManager = new DefaultWebSecurityManager();
 	
-	@Autowired // set in-memory authentication 
-	public void configureGlobal(UserDetailsService userDetailsService , AuthenticationManagerBuilder auth) throws Exception {
-		auth
-			.userDetailsService(userDetailsService);
+	    //设置authenticator
+	    ModularRealmAuthenticator authenticator = new ModularRealmAuthenticator();
+	    authenticator.setAuthenticationStrategy(new AtLeastOneSuccessfulStrategy());
+	    securityManager.setAuthenticator(authenticator);
+	
+	    //设置authorizer
+	    ModularRealmAuthorizer authorizer = new ModularRealmAuthorizer();
+	    authorizer.setPermissionResolver(new WildcardPermissionResolver());
+	    securityManager.setAuthorizer(authorizer);
+	
+	    //设置Realm
+	    /*
+	    DruidDataSource ds = new DruidDataSource();
+	    ds.setDriverClassName("com.mysql.jdbc.Driver");
+	    ds.setUrl("jdbc:mysql://localhost:3306/shiro");
+	    ds.setUsername("root");
+	    ds.setPassword("");*/
+	
+	    JdbcRealm jdbcRealm = new JdbcRealm();
+	    jdbcRealm.setDataSource(dataSource);
+	    jdbcRealm.setPermissionsLookupEnabled(true);
+	    securityManager.setRealms(Arrays.asList((Realm) jdbcRealm));
+	
+	    //将SecurityManager设置到SecurityUtils 方便全局使用
+	    SecurityUtils.setSecurityManager(securityManager);
+	
 	}
 	
-
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		http
-			.authorizeRequests() //set resources permitted.
-				.antMatchers("/header*").permitAll()
-				.antMatchers("/footer*").permitAll()
-				.antMatchers("/index*").permitAll()
-				.antMatchers("/partials/**").permitAll()
-				.antMatchers("/lib/**").permitAll()
-				.antMatchers("/js/**").permitAll()
-				.anyRequest().authenticated()
-				.and()
-			.formLogin()  //set login page url.
-				.loginPage("/login")
-				.defaultSuccessUrl("/")
-				.permitAll()
-				.and()
-			.rememberMe()
-				.tokenRepository(persistentTokenRepository())
-				.tokenValiditySeconds(1209600)
-				.and()
-			.logout()     //set log out perimitted for all user.
-				.permitAll();
-	}
+	/*
+	@Bean(name="restfilter")
+	public HttpMethodPermissionFilter createFilter(){
+		return new HttpMethodPermissionFilter();
+	}*/
 	
 	@Bean
-	public PersistentTokenRepository persistentTokenRepository() {
-		JdbcTokenRepositoryImpl db = new JdbcTokenRepositoryImpl();
-		db.setDataSource(dataSource);
-		return db;
+	public FilterRegistrationBean restFilter(){
+	    FilterRegistrationBean filterRegBean = new FilterRegistrationBean();
+	    filterRegBean.setFilter(new ShiroFilter());
+	    List<String> urlPatterns = new ArrayList<String>();
+	    urlPatterns.add("/*");
+	    filterRegBean.setUrlPatterns(urlPatterns);
+	    return filterRegBean;
 	}
 }
