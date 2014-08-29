@@ -14,6 +14,7 @@ import org.apache.shiro.authz.permission.WildcardPermissionResolver;
 import org.apache.shiro.mgt.DefaultSecurityManager;
 import org.apache.shiro.realm.Realm;
 import org.apache.shiro.realm.jdbc.JdbcRealm;
+import org.apache.shiro.web.env.EnvironmentLoaderListener;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.ShiroFilter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +52,9 @@ public class SecurityConfig {
 	    JdbcRealm jdbcRealm = new JdbcRealm();
 	    jdbcRealm.setDataSource(dataSource);
 	    jdbcRealm.setPermissionsLookupEnabled(true);
+	    jdbcRealm.setAuthenticationQuery("select password from tbl_users where username = ?");
+	    jdbcRealm.setUserRolesQuery("select role_name from tbl_user_roles where username = ?");
+	    jdbcRealm.setPermissionsQuery("select permission from tbl_roles_permissions where role_name = ?");
 	    securityManager.setRealms(Arrays.asList((Realm) jdbcRealm));
 	
 	    //将SecurityManager设置到SecurityUtils 方便全局使用
@@ -63,6 +67,10 @@ public class SecurityConfig {
 	public HttpMethodPermissionFilter createFilter(){
 		return new HttpMethodPermissionFilter();
 	}*/
+	@Bean 
+	public EnvironmentLoaderListener loaderListener(){
+		return new EnvironmentLoaderListener();
+	} 
 	
 	@Bean
 	public FilterRegistrationBean restFilter(){
